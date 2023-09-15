@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.InsuranceOrderApplyMapper">
+    <select id="getOrderPreliminaryPageAll" resultType="com.po.InsuranceOrderApply">
+       select * from insae_order_apply where isStart=0 or isStart=1 or isStart=2 or isStart=3 or isStart=4  limit ${(page-1)*rows},${rows}
+    </select>
+    <select id="getMaxPreliminaryRows" resultType="Integer">
+        select count(*) from insae_order_apply where isStart=0 or isStart=1 or isStart=2 or isStart=3 or isStart=4
+    </select>
+
+    <select id="getOrderReexaminePageAll" resultType="com.po.InsuranceOrderApply">
+       select * from insae_order_apply where isStart=1 or isStart=3 or isStart=4 limit ${(page-1)*rows},${rows}
+    </select>
+    <select id="getMaxReexamineRows" resultType="Integer">
+        select count(*) from insae_order_apply where isStart=1 or isStart=3 or isStart=4
+    </select>
+    <insert id="insertOrderApply" parameterType="com.po.InsuranceOrderApply">
+         insert into insae_order_apply(orderNo,isStart,orderDate) values(#{orderNo},#{isStart},#{orderDate})
+    </insert>
+    <update id="updateApplyIssart" parameterType="com.po.InsuranceOrderApply" >
+        update insae_order_apply
+         <set>
+             <if test="isStart!=null and isStart!=''">
+                 isStart=#{isStart},
+             </if>
+             <if test="commentspre!=null and commentspre!=''">
+                 commentspre=#{commentspre},
+             </if>
+             <if test="commentsree!=null and commentsree!=''">
+                 commentsree=#{commentsree},
+             </if>
+             <if test="preliminary!=null and preliminary!=''">
+                 preliminary=#{preliminary},
+             </if>
+             <if test="preliminaryDate!=null and preliminaryDate!=''">
+                 preliminaryDate=#{preliminaryDate},
+             </if>
+             <if test="reexamine!=null and reexamine!=''">
+                 reexamine=#{reexamine},
+             </if>
+             <if test="reexamineDate!=null and reexamineDate!=''">
+                 reexamineDate=#{reexamineDate},
+             </if>
+         </set>
+         where orderNo=#{orderNo}
+    </update>
+    <select id="getOrderApplyOrderNo" parameterType="com.po.InsuranceOrderApply" resultType="com.po.InsuranceOrderApply">
+        select * from  insae_order_apply where orderNo=#{orderNo}
+    </select>
+</mapper>

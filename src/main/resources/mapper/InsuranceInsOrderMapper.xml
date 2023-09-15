@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.InsuranceInsOrderMapper">
+    <select id="getInsOrderPageAll" resultType="com.po.InsuranceInsOrder">
+       select * from insae_ins_order where userCode=#{userCode} limit ${(page-1)*rows},${rows}
+    </select>
+    <select id="getMaxRows" resultType="Integer">
+        select count(*) from insae_ins_order where userCode=#{userCode}
+    </select>
+    <insert id="insertInsOrder" parameterType="com.po.InsuranceInsOrder">
+         insert into insae_ins_order(orderNo,insId,insName,insType,details,buycondition,payAmount,endDate,userCode,userName,weChat,idnumber,insBname,insBidnumber,insRname,insRidnumber,applyDate,isType) values(#{orderNo},#{insId},#{insName},#{insType},#{details},#{buycondition},#{payAmount},#{endDate},#{userCode},#{userName},#{weChat},#{idnumber},#{insBname},#{insBidnumber},#{insRname},#{insRidnumber},#{applyDate},#{isType})
+    </insert>
+    <select id="getInsOrderOne" parameterType="com.po.InsuranceInsOrder" resultType="com.po.InsuranceInsOrder">
+        select * from insae_ins_order
+        <where>
+            <if test="id!=null and id!=''">
+                id=#{id}
+            </if>
+            <if test="orderNo!=null and orderNo!=''">
+                orderNo=#{orderNo}
+            </if>
+        </where>
+
+    </select>
+    <update id="updateInsOrderIstype" parameterType="com.po.InsuranceInsOrder">
+        update insae_ins_order
+         <set>
+             <if test="approverDate!=null and approverDate!=''">
+                 approverDate=#{approverDate},
+             </if>
+             <if test="isType!=null and isType!=''">
+                 isType=#{isType}
+             </if>
+         </set>
+          where orderNo=#{orderNo}
+    </update>
+</mapper>

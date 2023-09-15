@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.InsuranceInsMapper">
+
+    <select id="getInsPageAll" resultType="com.po.InsuranceIns">
+        select * from insae_ins limit ${(page-1)*rows},${rows}
+    </select>
+    <select id="getMaxRows" resultType="Integer">
+        select count(*) from insae_ins
+    </select>
+
+</mapper>
